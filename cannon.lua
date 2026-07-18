@@ -5,6 +5,8 @@ local protocol, request_protocol = "CBCNetWork", "CBCcenter"
 
 
 local properties = {
+    face = "west",
+    lock_yaw_face = "east",
     barrelLength = "5",
     velocity = "160",
     drag = "0.01",
@@ -20,6 +22,7 @@ local properties = {
             y = 0,
             z = 0
         }
+    
 }
 
 local newVec = function() --坐标表格定义
@@ -426,12 +429,12 @@ local run = function ()
                     y = allDis * math.sin(cannonPitch),
                     z = allDis * (tgVec.z / _c) * cosP
                 }
-            local rot = RotateVectorByQuat(quatMultiply(quatList["north"], negaQ(nextQ)), tmpVec)--计算大炮角度
+            local rot = RotateVectorByQuat(quatMultiply(quatList[properties.face], negaQ(nextQ)), tmpVec)--计算大炮角度
 
             local tmpYaw = -math.deg(math.atan2(rot.z, -rot.x))
             local tmpPitch = -math.deg(math.asin(rot.y / math.sqrt(rot.x ^ 2 + rot.y ^ 2 + rot.z ^ 2)))
         
-            local localVec = RotateVectorByQuat(quatMultiply(quatList["north"], negaQ(parent.quat)), tmpVec)--带入底座方向计算角度
+            local localVec = RotateVectorByQuat(quatMultiply(quatList[properties.lock_yaw_face], negaQ(parent.quat)), tmpVec)--带入底座方向计算角度
 
             local localYaw = -math.deg(math.atan2(localVec.z, -localVec.x))
             local localPitch = math.deg(math.asin(localVec.y / math.sqrt(localVec.x ^ 2 + localVec.y ^ 2 + localVec.z ^ 2)))
